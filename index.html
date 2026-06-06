@@ -37,14 +37,17 @@
         <p>현재 가장 깨끗한 도서(양호) 우선 배정 안내 중입니다.</p>
       </div>
 
-      <!-- 검색 및 상태 필터 -->
+      <!-- 검색 및 상태 필터, 반납 버튼 -->
       <div class="controls-container">
         <input type="text" id="search-input" class="search-input" placeholder="도서명 또는 저자로 검색...">
-        <div class="filter-container">
-          <button class="filter-btn active" data-filter="전체">전체</button>
-          <button class="filter-btn" data-filter="양호">양호</button>
-          <button class="filter-btn" data-filter="주의">주의</button>
-          <button class="filter-btn" data-filter="훼손">훼손</button>
+        <div class="right-controls">
+          <div class="filter-container">
+            <button class="filter-btn active" data-filter="전체">전체</button>
+            <button class="filter-btn" data-filter="양호">양호</button>
+            <button class="filter-btn" data-filter="주의">주의</button>
+            <button class="filter-btn" data-filter="훼손">훼손</button>
+          </div>
+          <button id="btn-return" class="ai-return-btn" onclick="openReturnModal()">도서 반납하기 (AI 검수)</button>
         </div>
       </div>
 
@@ -76,11 +79,18 @@
           </tbody>
         </table>
       </div>
+
+      <div class="admin-log-container">
+        <h3>AI 검수 로그</h3>
+        <div id="ai-log-list" class="log-list">
+          <!-- JS 렌더링 -->
+        </div>
+      </div>
     </section>
   </main>
 
   <!-- 캠페인 모달 -->
-  <div id="campaign-modal" class="modal-overlay hidden">
+  <div id="campaign-modal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
         <h3>공지사항</h3>
@@ -101,6 +111,64 @@
 
   <!-- 피드백 토스트 -->
   <div id="toast" class="toast hidden">상태 변경 완료</div>
+
+  <!-- 도서 반납 모달 (1단계: 선택) -->
+  <div id="return-select-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>도서 반납 (AI 검수)</h3>
+        <button class="close-btn" onclick="closeReturnModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 1rem;">반납할 도서와 권차를 선택해주세요.</p>
+        <select id="return-book-select" class="status-select" style="width: 100%; margin-bottom: 1.5rem;">
+          <!-- JS 렌더링 -->
+        </select>
+        <button class="ai-return-btn" style="width: 100%;" onclick="startAiScan()">AI 스캔 시작</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI 스캔 진행 모달 (2단계) -->
+  <div id="ai-scan-modal" class="modal-overlay hidden">
+    <div class="modal-content scan-modal-content">
+      <div class="modal-body">
+        <div class="scanner-container">
+          <div class="scanner-icon">🤖🔍</div>
+          <div class="scanner-bar"></div>
+        </div>
+        <h3 class="scan-title">AI 비전 검수 진행 중...</h3>
+        <div class="scan-steps">
+          <p id="scan-step-text" class="scan-step-text">표지 스캔 중...</p>
+        </div>
+        <div class="progress-container">
+          <div id="scan-progress" class="progress-bar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI 검수 결과 모달 (3단계) -->
+  <div id="ai-result-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>AI 검수 결과</h3>
+        <button class="close-btn" onclick="closeResultModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4 id="result-book-title" style="margin-bottom: 1rem; color: var(--primary-navy);"></h4>
+        <div id="result-status-badge" class="status-badge" style="display:inline-block; font-size: 1.2rem; padding: 0.5rem 1rem; margin-bottom: 1.5rem;"></div>
+        <div class="result-details" style="text-align: left; background: #F8FAFC; padding: 1rem; border-radius: 8px; font-size: 0.95rem;">
+          <strong style="display:block; margin-bottom:0.5rem;">발견 항목:</strong>
+          <ul id="result-issues-list" style="padding-left: 1.5rem; color: var(--text-muted); min-height: 20px;">
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="ai-return-btn" style="width: 100%;" onclick="closeResultModal()">확인 및 종료</button>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
