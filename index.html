@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외대 도서관 장서 상태 안내 시스템</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- 상단 내비게이션 -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <img src="assets/hufs_logo.png" alt="외대 로고" class="logo-img">
+        외대 도서관
+      </div>
+      <div class="tabs">
+        <button id="tab-user" class="tab-btn active" onclick="switchTab('user')">외대 도서관 이용자 모드</button>
+        <button id="tab-admin" class="tab-btn" onclick="switchTab('admin')">외대 도서관 사서 모드</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 메인 컨텐츠 영역 -->
+  <main>
+    <!-- 이용자 화면 -->
+    <section id="view-user" class="view-section active">
+      <header class="section-header">
+        <h2>도서 검색 및 상태 확인</h2>
+      </header>
+
+      <!-- 가장 깨끗한 도서 우선 배정 안내 (동적 렌더링) -->
+      <div id="priority-notice" class="priority-notice hidden">
+        <span class="icon">✨</span>
+        <p>현재 가장 깨끗한 도서(양호) 우선 배정 안내 중입니다.</p>
+      </div>
+
+      <!-- 검색 및 상태 필터 -->
+      <div class="controls-container">
+        <input type="text" id="search-input" class="search-input" placeholder="도서명 또는 저자로 검색...">
+        <div class="filter-container">
+          <button class="filter-btn active" data-filter="전체">전체</button>
+          <button class="filter-btn" data-filter="양호">양호</button>
+          <button class="filter-btn" data-filter="주의">주의</button>
+          <button class="filter-btn" data-filter="훼손">훼손</button>
+        </div>
+      </div>
+
+      <!-- 도서 리스트 그리드 -->
+      <div id="book-grid" class="book-grid">
+        <!-- JS 렌더링 -->
+      </div>
+    </section>
+
+    <!-- 사서(관리자) 화면 -->
+    <section id="view-admin" class="view-section">
+      <header class="section-header">
+        <h2>장서 상태 관리</h2>
+        <p>각 장서의 현재 상태를 업데이트하세요.</p>
+      </header>
+
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>도서명</th>
+              <th>권차</th>
+              <th>상태 변경</th>
+              <th>액션</th>
+            </tr>
+          </thead>
+          <tbody id="admin-tbody">
+            <!-- JS 렌더링 -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- 캠페인 모달 -->
+  <div id="campaign-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>공지사항</h3>
+        <button id="modal-close-btn" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="campaign-icon">🚫✏️</div>
+        <h4>외대 도서관 공공 도서 필기 금지 캠페인</h4>
+        <p>다음 사람을 위해 깨끗하게 이용해주세요.<br>도서에 필기, 밑줄, 접기 등을 삼가시기 바랍니다.</p>
+      </div>
+      <div class="modal-footer">
+        <label class="checkbox-label">
+          <input type="checkbox" id="modal-dont-show-checkbox"> 오늘 다시 보지 않음
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 피드백 토스트 -->
+  <div id="toast" class="toast hidden">상태 변경 완료</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
